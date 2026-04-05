@@ -21,7 +21,9 @@ export const Icon = ({ name, size = 24, color = "#000000", ...rest }: IconProps)
         <SvgIcon
             width={size}
             height={size}
-            fill={color}
+            color={color}
+            // fill="black"
+            // stroke={"black"}
             {...rest}
         />
     )

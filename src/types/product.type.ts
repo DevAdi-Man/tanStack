@@ -49,3 +49,14 @@ export type Product = {
   thumbnail: string;
   images: string[];
 };
+
+export type ProductRequest = {
+    limit:number,
+    skip:number
+}
+export type ProductResponse = {
+  products: Product[]
+  total: number
+  skip: number
+  limit: number
+}

@@ -1,8 +1,9 @@
-import {HomeScreen, ProductsScreen} from '@/app/(auth)';
-import {LoginScreen} from '@/app/(public)';
-import {RootStackParamsList} from '@/types/router.type';
+import { HomeScreen, ProductsScreen, ProfileScreen } from '@/app/(auth)';
+import { LoginScreen } from '@/app/(public)';
+import useUserStore from '@/storage/useUserStore';
+// import { AuthStackPramasList, MainStackPramasList, RootStackParamsList } from '@/types/router.type';
 import { createStaticNavigation } from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
 // this is dynamic way of writing navigation
 
@@ -17,15 +18,31 @@ import {createStackNavigator} from '@react-navigation/stack';
 //   );
 // };
 
-const Stack = createStackNavigator<RootStackParamsList>({
-    screens:{
-        Home: HomeScreen,
-        Products:ProductsScreen,
-        Login:LoginScreen,
+const useIsLoggedIn = () => {
+    const token = useUserStore((state) => state.token);
+    return !!token;
+};
+
+export const Stack = createStackNavigator({
+    screenOptions: {
+        headerShown: false
     },
-    screenOptions:{
-        headerShown:false,
-    },
+    groups: {
+        LoggedIn: {
+            if: useIsLoggedIn,
+            screens: {
+                Home:HomeScreen,
+                Products:ProductsScreen,
+                Profile:ProfileScreen
+            }
+        },
+        LoggedOut: {
+            if: () => !useIsLoggedIn(),
+            screens: {
+                Login:LoginScreen
+            }
+        }
+    }
 });
 
 export const RootStack = createStaticNavigation(Stack);

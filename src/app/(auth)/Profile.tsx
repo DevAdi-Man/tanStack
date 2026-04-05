@@ -1,14 +1,14 @@
 import { AppButton } from '@/components';
-import { ProductsScreenProps } from '@/types/router.type';
+import { ProfileScreenProps } from '@/types/router.type';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export const ProductsScreen = () => {
-    const {goBack} = useNavigation<ProductsScreenProps>()
+export const ProfileScreen = () => {
+    const { goBack } = useNavigation<ProfileScreenProps>()
     return (
         <View style={styles.container}>
-            <Text>Products</Text>
+            <Text>Profile</Text>
             <AppButton
                 label='Home'
                 onPress={() => goBack()}
