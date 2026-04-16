@@ -1,58 +1,83 @@
-import { AppButton, AppText, ProductCard } from '@/components';
+import { BellIcon, SearchIcon } from '@/assets/icons';
+import { AppButton, AppHeader, AppImage, AppText, AppTextInput, ProductCard } from '@/components';
+import { Icon } from '@/components/Icon';
 import { useProductQuery } from '@/hook/query/products';
+import { usePaginationFlatList } from '@/hook/usePaginationFlatList';
 import useUserStore from '@/storage/useUserStore';
-import { ProductResponse } from '@/types/product.type';
 import { HomeScreenProps } from '@/types/router.type';
 import { useNavigation } from '@react-navigation/native';
-import React, { useMemo } from 'react';
-import { View, StyleSheet, Pressable, Image, FlatList, ActivityIndicator, } from 'react-native';
+import React from 'react';
+import { View, StyleSheet, Pressable, FlatList, ActivityIndicator, StatusBar, } from 'react-native';
 
 
 export const HomeScreen = () => {
     const { user } = useUserStore()
     const { navigate } = useNavigation<HomeScreenProps>()
 
-    const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useProductQuery()
-    console.log("product list: ", data)
+    const productQuery = useProductQuery()
+    const {
+        listData,
+        onEndReached,
+        onRefresh,
+        refreshing,
+        isFetchingNextPage
+    } = usePaginationFlatList({
+        query: productQuery,
+        selectData: (page) => page.products
+    })
 
     const renderRightIcon = () => {
         return (
             <Pressable onPress={() => navigate("Profile")} style={styles.imageContainer}>
-                <Image
-                    src={`${user?.image}`}
-                    width={40}
-                    height={40}
-                    resizeMode='cover'
-                    style={styles.image}
+                <AppImage
+                    uri={`${user?.image}`}
+                    style={{
+                        width: 40,
+                        height: 40
+                    }}
                 />
             </Pressable>
         )
     }
 
-    const products = useMemo(
-        () => data?.pages.flatMap((page: ProductResponse) => page.products) ?? [],
-        [data]
-    )
+    const renderSearch = () => {
+        return (
+            <AppTextInput
+                placeHolder='Search'
+                inputContainerStyle={styles.searchContaniner}
+                renderPrefixIcon={<Icon name='SearchIcon' />}
+                renderSuffixIcon={<Icon name='BellIcon' />}
+            />
+        )
+    }
+
     return (
         <View style={styles.container}>
-            <AppText
-                title='Home'
-                textColor={"#F5824A"}
-                textFontSize={34}
-                textContainerStyle={styles.header}
-                renderRightImage={renderRightIcon}
-            />
-            <FlatList
-                data={products}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => <ProductCard product={item} />}
-                onEndReached={() => {
-                    if (hasNextPage) {
-                        fetchNextPage()
-                    }
+            <StatusBar backgroundColor={"#614B8B"} />
+            <AppHeader
+                title='Home Page'
+                subtitle='Sub title text'
+                renderRightItem={renderRightIcon}
+                renderSearchItem={renderSearch}
+                containerStyle={{
+                    paddingBottom:40
                 }}
-                onEndReachedThreshold={0.5}
             />
+            <View style={styles.listContainer}>
+                <FlatList
+                    data={listData}
+                    numColumns={2}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({ item }) => <ProductCard product={item} />}
+                    onEndReached={onEndReached}
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                    onEndReachedThreshold={0.2}
+                    ListFooterComponent={() =>
+                        isFetchingNextPage ? <ActivityIndicator size="large" /> : null
+                    }
+                />
+            </View>
         </View>
     );
 };
@@ -62,7 +87,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#ccc",
-        paddingHorizontal: 16
+        // paddingHorizontal: 16
     },
     header: {
         flexDirection: "row",
@@ -71,10 +96,25 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         padding: 2,
-        // borderWidth:1,
         borderRadius: 80
     },
     image: {
         borderRadius: 100
+    },
+    searchContaniner: {
+        width: "100%",
+        backgroundColor: "#fff",
+        borderRadius: 500,
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    listContainer: {
+        flex: 1,
+        backgroundColor: "#fff",
+        marginTop: -40,   // 🔥 pulls container over header
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        paddingTop: 16,
+        zIndex: 5,
     }
 })

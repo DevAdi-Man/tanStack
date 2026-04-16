@@ -1,6 +1,7 @@
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AppRouter } from './router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ErrorBoundary } from './components';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -14,9 +15,11 @@ const queryClient = new QueryClient({
 function App() {
     return (
         <QueryClientProvider client={queryClient}>
-            <SafeAreaProvider>
-                <AppRouter />
-            </SafeAreaProvider>
+            <ErrorBoundary>
+                <SafeAreaProvider>
+                    <AppRouter />
+                </SafeAreaProvider>
+            </ErrorBoundary>
         </QueryClientProvider>
     );
 }

@@ -1,38 +1,39 @@
 import { ReactNode } from 'react'
-import { View, Text, StyleSheet, TextInput, ViewStyle, TextStyle } from 'react-native'
+import { View, Text, StyleSheet, TextInput, ViewStyle, TextStyle, StyleProp } from 'react-native'
 
 type AppTextInputProp = {
     label?: string,
     sublabel?: string,
-    labelContainer?: ViewStyle
-    labelStyle?: TextStyle,
+    labelContainer?: StyleProp<ViewStyle>,
+    labelStyle?: StyleProp<TextStyle>,
     labelfontSize?: TextStyle["fontSize"],
     labelFontFamily?: TextStyle["fontFamily"]
     labelFontColor?: TextStyle["color"],
-    sublabelStyle?: TextStyle,
+    sublabelStyle?: StyleProp<TextStyle>,
     sublabelfontSize?: TextStyle["fontSize"],
     sublabelFontFamily?: TextStyle["fontFamily"]
     sublabelFontColor?: TextStyle["color"],
     placeHolder?: string,
+    placeholderTextColor?: string,
     value?: string,
     onChangeText?: (text: string) => void,
     multiline?: boolean,
     numberOfLines?: number,
-    inputStyle?: ViewStyle | TextStyle,
-    inputContainerStyle?: ViewStyle,
+    inputStyle?: StyleProp<ViewStyle> | StyleProp<TextStyle>,
+    inputContainerStyle?: StyleProp<ViewStyle>,
     error?: string,
     errorfontSize?: TextStyle["fontSize"],
     errorFontFamily?: TextStyle["fontFamily"],
     renderPrefix?: ReactNode,
     renderSuffixIcon?: ReactNode,
     renderPrefixIcon?: ReactNode,
-    container?:ViewStyle,
-    editabel?:boolean
+    container?: StyleProp<ViewStyle>,
+    editable?: boolean
 }
 
 export const AppTextInput = ({
     error,
-    editabel,
+    editable,
     errorFontFamily,
     errorfontSize,
     value,
@@ -55,11 +56,12 @@ export const AppTextInput = ({
     renderSuffixIcon,
     container,
     placeHolder = "",
+    placeholderTextColor = "#ccc",
     multiline = false,
     numberOfLines = 1
 }: AppTextInputProp) => {
     return (
-        <View style={[styles.container,container]}>
+        <View style={[styles.container, container]}>
             {/* title lable and sub label  */}
             {
                 (label || sublabel) && (
@@ -101,10 +103,11 @@ export const AppTextInput = ({
                 {renderPrefixIcon}
                 <TextInput
                     placeholder={placeHolder}
+                    placeholderTextColor={placeholderTextColor}
                     value={value}
                     onChangeText={onChangeText}
                     multiline={multiline}
-                    editable={editabel}
+                    editable={editable}
                     numberOfLines={numberOfLines}
                     style={[
                         styles.input,
@@ -131,7 +134,6 @@ export const AppTextInput = ({
 const styles = StyleSheet.create({
     container: {
         marginBottom: 16,
-        width: '100%'
     },
     labelContainer: {
         flexDirection: "column",
@@ -149,16 +151,21 @@ const styles = StyleSheet.create({
         marginBottom: 2,
     },
     inputContainer: {
+        flexDirection: "row",
+        alignItems: "center",
         borderWidth: 1,
-        borderColor: '#ccc',
+        borderColor: "#ccc",
         borderRadius: 16,
-        padding: 2,
-        paddingHorizontal: 12
+        paddingHorizontal: 12,
+        width: "100%"
     },
     input: {
-        color: 'white',
+        flex: 1,
+        minWidth: 0,
+        color: "black",
         fontSize: 16,
         paddingVertical: 10,
+        // borderWidth: 1
     },
     error: {
         color: '#ff4444',

@@ -26,11 +26,13 @@ export const AppText = ({
 }: AppTextProps) => {
     return (
         <View style={[styles.container, textContainerStyle]}>
-            {renderLeftImage && <View style={styles.sideComponent}>
-                {
-                    typeof renderLeftImage === "function" ? renderLeftImage() : renderLeftImage
-                }
-            </View>}
+            {
+                renderLeftImage && <View style={styles.sideComponent}>
+                    {
+                        typeof renderLeftImage === "function" ? renderLeftImage() : renderLeftImage
+                    }
+                </View>
+            }
             <Text
                 numberOfLines={numberOfLine}
                 style={[
@@ -42,11 +44,13 @@ export const AppText = ({
                     },
                     textStyle,
                 ]}>{title}</Text>
-            {renderRightImage && <View style={styles.sideComponent}>
-                {
-                    typeof renderRightImage === "function" ? renderRightImage() : renderRightImage
-                }
-            </View>}
+            {
+                renderRightImage && <View style={styles.sideComponent}>
+                    {
+                        typeof renderRightImage === "function" ? renderRightImage() : renderRightImage
+                    }
+                </View>
+            }
         </View>
     )
 }
