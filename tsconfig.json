@@ -2,9 +2,12 @@
   "extends": "@react-native/typescript-config",
   "compilerOptions": {
     "types": [
-      "jest"
+      "jest",
+      "react-native-web"
     ],
     "paths": {
+            "@d11/react-native-fast-image": ["node_modules/react-native-web/dist/exports/Image"],
+      "react-native-linear-gradient": ["node_modules/react-native-web-linear-gradient"],
       "@/*": [
         "./src/*"
       ],

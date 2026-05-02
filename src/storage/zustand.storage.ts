@@ -1,14 +1,15 @@
+import { Platform } from "react-native";
 import { createMMKV } from "react-native-mmkv";
 import { StateStorage } from "zustand/middleware";
 
 export const tokenStorage = createMMKV({
     id:"token-storage",
-    encryptionKey:"my-encryption-key"
+    ...(Platform.OS !== 'web' && { encryptionKey: 'my-encryption-key' })
 });
 
 const storage = createMMKV({
     id:"my-app-storage",
-    encryptionKey:"my-storage-key"
+    ...(Platform.OS !== 'web' && { encryptionKey: 'your-secret-key' })
 });
 
 const zustandStorage:StateStorage = {

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>My Universal App</title>
+  <style>
+    /* These styles ensure the React Native views take up the full screen */
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        overflow: hidden;
+    }
+    #root {
+        display: flex;
+        height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <!-- This is where index.web.js will inject your React Native app -->
+  <div id="root"></div>
+</body>
+</html>

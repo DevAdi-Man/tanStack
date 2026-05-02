@@ -1,3 +1,4 @@
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AppRouter } from './router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -14,13 +15,15 @@ const queryClient = new QueryClient({
 
 function App() {
     return (
-        <QueryClientProvider client={queryClient}>
-            <ErrorBoundary>
-                <SafeAreaProvider>
-                    <AppRouter />
-                </SafeAreaProvider>
-            </ErrorBoundary>
-        </QueryClientProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <QueryClientProvider client={queryClient}>
+                <ErrorBoundary>
+                    <SafeAreaProvider>
+                        <AppRouter />
+                    </SafeAreaProvider>
+                </ErrorBoundary>
+            </QueryClientProvider>
+        </GestureHandlerRootView>
     );
 }
 

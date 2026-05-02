@@ -1,18 +1,16 @@
 import { AppButton, AppText, AppTextInput } from '@/components';
 import { useLoginMutation } from '@/hook/mutate/auth';
 import { useFormData } from '@/hook/useformHook';
-import { refreshToken } from '@/lib/api';
-import useUserStore from '@/storage/useUserStore';
+// import useUserStore from '@/storage/useUserStore';
 import { LoginRequest, LoginResponse } from '@/types/auth.type';
 import { isRequired, validateFormSchema } from '@/util/validator';
-import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 
 export const LoginScreen = () => {
     const { mutate, isPending } = useLoginMutation();
-    const { setToken, setRefreshToken } = useUserStore()
+    // const { setToken, setRefreshToken } = useUserStore()
 
     const initialValues: LoginRequest = {
         username: "",
@@ -62,10 +60,13 @@ export const LoginScreen = () => {
                 value={value.username}
                 onChangeText={(text: string) => handlechanges('username', text)}
                 error={errors.username}
-                editabel={!isPending}
+                editable={!isPending}
+                inputContainerStyle={{
+                    backgroundColor:"#2596be"
+                }}
                 container={{
                     marginBottom: 4,
-                    marginTop: 10
+                    marginTop: 10,
                 }}
             />
             <AppTextInput
@@ -75,7 +76,7 @@ export const LoginScreen = () => {
                 value={value.password}
                 onChangeText={(text: string) => handlechanges('password', text)}
                 error={errors.password}
-                editabel={!isPending}
+                editable={!isPending}
                 container={{
                     marginBottom: 4,
                     marginTop: 10
@@ -95,7 +96,7 @@ export const LoginScreen = () => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'black',
+        backgroundColor: '#C0A25B',
         flex: 1,
         paddingHorizontal: 16
     },

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { View, Text, StyleSheet, TextInput, ViewStyle, TextStyle, StyleProp } from 'react-native'
+import { View, Text, StyleSheet, TextInput, ViewStyle, TextStyle, StyleProp, Platform } from 'react-native'
 
 type AppTextInputProp = {
     label?: string,
@@ -19,7 +19,7 @@ type AppTextInputProp = {
     onChangeText?: (text: string) => void,
     multiline?: boolean,
     numberOfLines?: number,
-    inputStyle?: StyleProp<ViewStyle> | StyleProp<TextStyle>,
+    inputStyle?: StyleProp<TextStyle>,
     inputContainerStyle?: StyleProp<ViewStyle>,
     error?: string,
     errorfontSize?: TextStyle["fontSize"],
@@ -111,6 +111,9 @@ export const AppTextInput = ({
                     numberOfLines={numberOfLines}
                     style={[
                         styles.input,
+                        Platform.OS === "web" && {
+                            outlineStyle: "none"
+                        } as any,
                         inputStyle,
                         multiline && { textAlignVertical: 'top', minHeight: 80 }
                     ]}
@@ -154,15 +157,15 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         borderWidth: 1,
-        borderColor: "#ccc",
+        borderColor: "#2596be",
         borderRadius: 16,
         paddingHorizontal: 12,
-        width: "100%"
+        width: "100%",
     },
     input: {
         flex: 1,
         minWidth: 0,
-        color: "black",
+        color: "white",
         fontSize: 16,
         paddingVertical: 10,
         // borderWidth: 1
