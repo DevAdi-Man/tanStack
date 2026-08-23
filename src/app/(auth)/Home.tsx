@@ -1,5 +1,4 @@
-import { BellIcon, SearchIcon } from '@/assets/icons';
-import { AppButton, AppHeader, AppImage, AppText, AppTextInput, ProductCard } from '@/components';
+import { AppHeader, AppImage, AppTextInput, ProductCard } from '@/components';
 import { Icon } from '@/components/Icon';
 import { useProductQuery } from '@/hook/query/products';
 import { usePaginationFlatList } from '@/hook/usePaginationFlatList';
@@ -8,7 +7,6 @@ import { HomeScreenProps } from '@/types/router.type';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, StyleSheet, Pressable, FlatList, ActivityIndicator, StatusBar, } from 'react-native';
-
 
 export const HomeScreen = () => {
     const { user } = useUserStore()
@@ -60,7 +58,7 @@ export const HomeScreen = () => {
                 renderRightItem={renderRightIcon}
                 renderSearchItem={renderSearch}
                 containerStyle={{
-                    paddingBottom:40
+                    paddingBottom: 40
                 }}
             />
             <View style={styles.listContainer}>
